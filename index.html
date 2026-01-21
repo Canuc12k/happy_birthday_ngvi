@@ -20,7 +20,6 @@
     font-size: max(14px, 1.2vw); 
     line-height: 1.5; 
     text-align: justify;
-    max-height: 60vh; /* Giới hạn chiều cao để không che hết màn hình */
     overflow-y: auto; 
     z-index: 2; 
 
@@ -29,18 +28,22 @@
     left: 5vw;
     width: 30vw; 
     max-width: 350px; 
+    max-height: 80vh;
   }
 
-  /* --- CSS CHO ĐIỆN THOẠI (Màn dọc) --- */
+  /* --- CSS CHO ĐIỆN THOẠI (Màn dọc) - ĐÃ TINH CHỈNH --- */
   @media (orientation: portrait) {
     .note {
-      top: 5vh;      /* Cách đỉnh 5% */
+      top: 2vh;          /* Sát đỉnh hơn xíu */
       left: 50%;
-      width: 85vw;   /* Rộng 85% màn hình */
+      width: 90vw;       /* Rộng hơn chút */
       max-width: none; 
+      /* Giới hạn chiều cao chặt hơn để dành chỗ cho bánh */
+      max-height: 30vh;  
       transform: translateX(-50%);
-      font-size: max(14px, 3.5vw); /* Chữ to hơn chút trên đt */
-      padding: 15px; 
+      /* Chữ nhỏ lại một xíu để tiết kiệm diện tích */
+      font-size: max(12px, 3vw); 
+      padding: 12px; 
     }
   }
 
@@ -62,42 +65,42 @@
     }
   }
   
+  /* --- SỬA VỊ TRÍ CHỮ TRÊN ĐT --- */
   @media (orientation: portrait) {
     #happyBirthday {
-      left: 50%; 
-      bottom: 15vh; /* Đẩy cao lên để không đè vào ảnh */
-      transform: translateX(-50%);
-      font-size: 8vw; /* Chữ to theo chiều ngang đt */
+      left: 0;
       width: 100%;
+      text-align: center;
+      /* Đẩy cao lên hẳn, nằm giữa bánh và ảnh */
+      bottom: 18vh;      
+      font-size: 6vw;    /* Kích thước vừa vặn hơn */
+      transform: none;
     }
   }
 
-  /* --- CSS CHO ẢNH RUNG RINH (ĐÃ SỬA RESPONSIVE) --- */
+  /* --- CSS CHO ẢNH RUNG RINH --- */
   .shaking-image {
     position: fixed;
     z-index: 10;
-    
-    /* Hiệu ứng rung */
     animation: shakeLeftRight 2s infinite ease-in-out;
     transform-origin: bottom center;
   }
 
-  /* Giao diện PC */
   @media (orientation: landscape) {
     .shaking-image {
         bottom: 20px;
         left: 20px;
-        width: 190px; /* Giữ nguyên kích thước to trên PC */
+        width: 190px; 
     }
   }
 
-  /* Giao diện Điện thoại */
   @media (orientation: portrait) {
     .shaking-image {
-        bottom: 10px;
+        bottom: 10px;   
         left: 10px;
-        width: 35vw; /* Ảnh chiếm 35% chiều rộng màn hình */
-        max-width: 150px; /* Không quá to */
+        /* Thu nhỏ ảnh lại để không tranh chấp với chữ */
+        width: 25vw;   
+        max-width: 120px; 
     }
   }
 
@@ -409,13 +412,15 @@ function resize() {
   const isPortrait = window.matchMedia("(orientation: portrait)").matches;
 
   if (isPortrait) {
-    // Dọc (Điện thoại)
+    // --- CÂN CHỈNH LẠI VỊ TRÍ BÁNH TRÊN ĐT ---
     cx = canvas.width / 2;
-    cy = canvas.height * 0.75; // Đẩy bánh lên cao hơn xíu (0.75) để tránh đè vào ảnh dưới
-    CAKE_SCALE = Math.min(0.95, canvas.width / 550); 
+    // Đặt bánh ở khoảng giữa màn hình (hơi lệch xuống dưới xíu)
+    cy = canvas.height * 0.55; 
+    // Thu nhỏ scale lại để bánh gọn gàng hơn (0.8)
+    CAKE_SCALE = Math.min(0.8, canvas.width / 550); 
     
   } else {
-    // Ngang (PC)
+    // Ngang (PC) - Giữ nguyên
     cx = canvas.width * 0.65;
     cy = canvas.height / 2;
     CAKE_SCALE = Math.min(1.2, canvas.height / 450); 
